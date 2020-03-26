@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import DayList from 'components/DayList';
 import Appointment from 'components/Appointment';
 import 'components/Application.scss';
-import axios from 'axios';
-
+import useApplicationData from 'hooks/useApplicationData';
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from 'helpers/selectors';
 import { transform } from '@babel/core';
 
@@ -60,56 +59,9 @@ import { transform } from '@babel/core';
 ]; */
 
 export default function Application(props) {
-  //reread erics notes about addBacon literally paste the ..rest
-  const [ state, setState ] = useState({
-    day: 'Monday',
-    days: [],
-    appointments: {},
-    interviewers: {},
-  });
-
-  const setDay = (day) => setState({ ...state, day });
+  const { state, setDay, bookInterview, cancelInterview } = useApplicationData();
   const appointment = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
-
-  function bookInterview(id, interview) {
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview },
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment,
-    };
-    setState({
-      ...state,
-      appointments,
-    });
-
-    return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
-      setState({ ...state, appointments });
-    });
-  }
-  //  ------------- USE EFFECT WITH GETS ------------\\\\\\\
-  useEffect(() => {
-    const fetchDays = axios.get('/api/days');
-    const fetchAppointments = axios.get('/api/appointments');
-    const fetchInterviewers = axios.get('/api/interviewers');
-    Promise.all([
-      Promise.resolve(fetchDays),
-      Promise.resolve(fetchAppointments),
-      Promise.resolve(fetchInterviewers),
-    ]).then((all) => {
-      //data for each promise in order of the above.
-      const [ days, appointments, interviewers ] = all;
-
-      setState((prev) => ({
-        days: days.data,
-        appointments: appointments.data,
-        interviewers: interviewers.data,
-      }));
-    });
-  }, []);
 
   const appointmentList = appointment.map((app) => {
     const interview = getInterview(state, app.interview);
@@ -120,6 +72,7 @@ export default function Application(props) {
         interview={interview}
         interviewers={interviewers}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     );
   });

@@ -5,6 +5,7 @@ export default function Form(props) {
   const { interviewers, onCancel, onSave } = props;
   const [ name, setName ] = useState(props.name || '');
   const [ interviewer, setInterviewer ] = useState(props.interviewer || null);
+
   const reset = () => {
     setName('');
     setInterviewer('null');
@@ -24,7 +25,7 @@ export default function Form(props) {
             className="appointment__create-input text--semi-bold"
             name={name}
             type="text"
-            placeholder="Enter Student Name"
+            placeholder={name}
             onChange={(e) => setName(e.target.value)}
             /*
           This must be  a controlled com   ponent
@@ -39,7 +40,7 @@ export default function Form(props) {
           <Button onClick={cancel} danger>
             Cancel
           </Button>
-          <Button onClick={() => saveData()} confirm>
+          <Button onClick={saveData} confirm>
             Save
           </Button>
         </section>
