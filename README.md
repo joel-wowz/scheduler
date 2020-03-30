@@ -21,3 +21,7 @@ npm test
 ```sh
 npm run storybook
 ```
+
+![Delete Confirmation!](docs/delete_confirmation.png)
+![Interview saving](docs/interview_saving.png)
+![No spots remaining](docs/interviewer_nospots.png)
