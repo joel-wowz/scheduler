@@ -11,10 +11,11 @@ export default function useVisualMode(initial) {
   }
 
   function back() {
-    const oldHistory = history.splice(0, history.length - 1);
     if (history.length > 1) {
-      setMode(history[oldHistory.length - 1]);
+      const oldHistory = history.splice(0, history.length - 1);
       setHistory(oldHistory);
+      setMode(history[oldHistory.length - 2]);
+      console.log(history);
     }
   }
 

@@ -25,6 +25,7 @@ export default function Appointment(props) {
   //  console.log(`props check ${JSON.stringify(props)}`);
 
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
+
   function onAdd() {
     transition(CREATE);
   }
@@ -38,7 +39,7 @@ export default function Appointment(props) {
       .then(() => {
         transition(EMPTY);
       })
-      .catch((err) => transition(ERROR_DELETE, true));
+      .catch(() => transition(ERROR_DELETE, true));
   }
 
   function save(name, interviewer) {
@@ -47,15 +48,14 @@ export default function Appointment(props) {
       interviewer,
     };
     transition(SAVING);
-    bookInterview(id, interview).then(() => transition(SHOW)).catch((err) => transition(ERROR_SAVE, true));
+    bookInterview(id, interview).then(() => transition(SHOW)).catch(() => transition(ERROR_SAVE, true));
   }
 
   return (
-    <article className="appointment">
+    <article className="appointment" data-testid="appointment">
       <Header time={time} />
       {mode === EMPTY && <Empty onAdd={onAdd} />}
-      {mode === CREATE && <Form interviewers={props.interviewers} onSave={save} />}
-      {mode === ERROR && <Error />}
+      {mode === CREATE && <Form interviewers={props.interviewers} onSave={save} onCancel={() => transition(EMPTY)} />}
       {mode === SHOW &&
       interview && (
         <Show
@@ -65,11 +65,11 @@ export default function Appointment(props) {
           onEdit={() => transition(EDIT)}
         />
       )}
-      {mode === SAVING && <Status message={'hello there i am saving'} />}
+      {mode === SAVING && <Status message={'Saving'} />}
       {mode === CONFIRM && (
-        <Confirm onCancel={() => transition(SHOW)} message={'IM DYING HELP'} onConfirm={deleteInterview} />
+        <Confirm onCancel={onCancel} message={'Are you sure you would like to delete?'} onConfirm={deleteInterview} />
       )}
-      {mode === DELETE && <Status message={'im deleting zoom zoom'} />}
+      {mode === DELETE && <Status message={'Deleting'} />}
       {mode === EDIT && (
         <Form
           interviewers={props.interviewers}
@@ -79,7 +79,7 @@ export default function Appointment(props) {
           interviewer={interview.interviewer.id}
         />
       )}
-      {mode === ERROR_SAVE && <Error message={'error saving stuff'} onClose={onCancel} />}
+      {mode === ERROR_SAVE && <Error message={'error saving stuff'} onClose={() => transition(EMPTY)} />}
       {mode === ERROR_DELETE && <Error message={'error on deleting your stuff'} onClose={onCancel} />}
     </article>
   );

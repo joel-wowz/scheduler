@@ -7,9 +7,9 @@ export default function DayListItem(props) {
 
   const spotCheck = (spots) => {
     if (spots === 0) {
-      return 'no spots left sam';
+      return 'no spots left';
     }
-    return spots === 1 ? `${spots} singular spot sam` : `${spots} several spot sam `;
+    return spots === 1 ? `${spots} spot remaining` : `${spots} spots remaining `;
   };
   const dayList = className('day-list__item', {
     'day-list__item--selected': selected,
