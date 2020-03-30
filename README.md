@@ -25,5 +25,5 @@ npm run storybook
 ![Delete Confirmation!](docs/delete_confirmation.png)
 ### Saving an new interview
 ![Interview saving](docs/interview_saving.png)
-### No spots left remainign
+### No spots left remaining
 ![No spots remaining](docs/interviewer_nospots.png)
