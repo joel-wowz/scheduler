@@ -21,7 +21,6 @@ const ERROR_SAVE = 'ERROR_SAVE';
 const ERROR_DELETE = 'ERROR_DELETE';
 export default function Appointment(props) {
   const { time, interview, id, bookInterview, cancelInterview } = props;
-  //  console.log(`props check ${JSON.stringify(props)}`);
 
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
 
