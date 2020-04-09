@@ -14,7 +14,6 @@ const SHOW = 'SHOW';
 const EMPTY = 'EMPTY';
 const CREATE = 'CREATE';
 const SAVING = 'SAVING';
-const ERROR = 'ERROR';
 const CONFIRM = 'CONFIRM';
 const DELETE = 'DELETE';
 const EDIT = 'EDIT';
