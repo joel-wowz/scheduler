@@ -1,4 +1,7 @@
 # Interview Scheduler
+An React App To Schedule Interviews with mentors for each weekday. 
+It keeps track of the available spots per day.
+Appointments can be added, edited, or deleted.
 
 ## Setup
 
