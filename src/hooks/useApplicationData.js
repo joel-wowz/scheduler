@@ -53,7 +53,7 @@ export default function useApplicationData() {
       ]).then((all) => {
         //data for each promise in order of the above.
         const [ days, appointments, interviewers ] = all;
-
+        //then set state to that data on appt change
         setState((state) => ({
           ...state,
           days: days.data,
